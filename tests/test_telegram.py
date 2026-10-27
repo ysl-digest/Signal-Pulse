@@ -136,7 +136,7 @@ def test_telegram_summary_renders_trend_sections_and_natural_language():
     message = render_telegram_summary(
         [bullish, neutral, bearish],
         failures={},
-        github_pages_url="https://yeseolee.github.io/Signal-Pulse/",
+        github_pages_url="https://yeseo-bot.github.io/Signal-Pulse/",
     )
 
     assert "[시그널 봇]" in message
@@ -155,7 +155,7 @@ def test_telegram_summary_renders_trend_sections_and_natural_language():
     assert "RSI" not in message
     assert "BREAKOUT" not in message
     assert "벤치마크 실패" not in message
-    assert "리포트: https://yeseolee.github.io/Signal-Pulse/" in message
+    assert "리포트: https://yeseo-bot.github.io/Signal-Pulse/" in message
 
 
 def test_telegram_summary_sorts_index_before_equity_within_same_bucket():
