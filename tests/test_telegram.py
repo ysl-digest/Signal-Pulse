@@ -1,9 +1,13 @@
 from __future__ import annotations
 
 from datetime import date, datetime
+from pathlib import Path
 
 from watchlist_signal_bot.models import AnalysisResult, PriceZone, SymbolConfig
 from watchlist_signal_bot.reports.telegram import render_telegram_summary
+from watchlist_signal_bot.settings import _resolve_github_pages_url
+
+ROOT_DIR = Path(__file__).resolve().parents[1]
 
 
 def _result(
@@ -133,10 +137,12 @@ def test_telegram_summary_renders_trend_sections_and_natural_language():
         return_120d=-21.0,
     )
 
+    github_pages_url = _resolve_github_pages_url(ROOT_DIR) or "https://example.github.io/Signal-Pulse/"
+
     message = render_telegram_summary(
         [bullish, neutral, bearish],
         failures={},
-        github_pages_url="https://yeseo-bot.github.io/Signal-Pulse/",
+        github_pages_url=github_pages_url,
     )
 
     assert "[시그널 봇]" in message
@@ -155,7 +161,7 @@ def test_telegram_summary_renders_trend_sections_and_natural_language():
     assert "RSI" not in message
     assert "BREAKOUT" not in message
     assert "벤치마크 실패" not in message
-    assert "리포트: https://yeseo-bot.github.io/Signal-Pulse/" in message
+    assert f"리포트: {github_pages_url}" in message
 
 
 def test_telegram_summary_sorts_index_before_equity_within_same_bucket():
